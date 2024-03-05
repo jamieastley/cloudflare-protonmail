@@ -1,3 +1,21 @@
+# 1Password
+.op/
+
 # JetBrains
 .idea
 cloudflare-protonmail.iml
+
+# Terraform
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# local dev
+*.tfvars
+tfplan
+
+# Infracost
+.infracost
