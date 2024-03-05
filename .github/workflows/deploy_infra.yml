@@ -1,0 +1,44 @@
+name: 'Create Infrastructure'
+
+on:
+  push:
+    tags:
+      - infra
+
+env:
+  TF_PLAN_FILENAME: "tfplan"
+
+jobs:
+  deploy-infra:
+    defaults:
+      run:
+        working-directory: infra
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Load secrets
+        uses: 1password/load-secrets-action@v1
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TF_VAR_account_id: "op://Deployment/Cloudflare/account id"
+          TF_VAR_cloudflare_api_token: "op://Deployment/Cloudflare/token"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Plan
+        run: terraform plan -out=${TF_PLAN_FILENAME}
+
+      - name: Terraform Apply Plan
+        run: terraform apply -auto-approve "${TF_PLAN_FILENAME}"
