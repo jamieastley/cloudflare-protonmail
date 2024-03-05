@@ -1,14 +1,14 @@
 terraform {
   required_providers {
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
       version = "~> 4"
     }
   }
 }
 
 provider "cloudflare" {
-#  api_token = <loaded via env var>
+  #  api_token = <loaded via env var>
 }
 
 resource "cloudflare_r2_bucket" "cloudflare-bucket" {
