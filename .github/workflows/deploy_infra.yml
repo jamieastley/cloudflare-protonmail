@@ -41,7 +41,7 @@ jobs:
       - name: Terraform Plan
         env:
           # GitHub's secrets/vars will be auto-capitalized
-          TF_VAR_r2_bucket_name: ${{ env.TF_VAR_R2_BUCKET_NAME }}
+          TF_VAR_r2_bucket_name: ${{ secrets.TF_VAR_R2_BUCKET_NAME }}
         run: terraform plan -out=${TF_PLAN_FILENAME}
 
       - name: Terraform Apply Plan
